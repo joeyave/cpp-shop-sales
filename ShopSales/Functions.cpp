@@ -4,7 +4,7 @@
 Node* head = NULL;
 const int QUARTER = 4;
 
-void create_list(Node* strct, std::ifstream& in)
+void create_list(std::ifstream& in)
 {
 	// Initialization method choose
 	std::cout << "Choose a method of initialization (f/c) ";
@@ -117,7 +117,7 @@ void create_list(Node* strct, std::ifstream& in)
 	}
 }
 
-void print_list(Node* strct, std::ofstream& out)
+void print_list(std::ofstream& out)
 {
 	//  Where to print a list
 	std::cout << "Where should I print a list? (f/c) ";
@@ -197,7 +197,7 @@ int find_node(int ID)
 	return key;
 }
 
-void delete_node(Node* strct, int ID)
+void delete_node(int ID)
 {
 	Node* temp = head;
 	Node* previous = head;
@@ -229,7 +229,7 @@ void delete_node(Node* strct, int ID)
 	}
 }
 
-void insert_node(Node* strct, std::ifstream& in)
+void insert_node(std::ifstream& in)
 {
 	// Initialization method choose
 	std::cout << "\nChoose a method of inserting (f/c) ";

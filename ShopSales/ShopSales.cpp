@@ -37,13 +37,13 @@ int main()
 		return 3;
 	}
 
-	Node node;
+	//Node node;
 
-	create_list(&node, read_file);
-	print_list(&node, write_file);
+	create_list(read_file);
+	print_list(write_file);
 
-	insert_node(&node, insert_file);
-	print_list(&node, write_file);
+	insert_node(insert_file);
+	print_list(write_file);
 
 	read_file.close();
 	write_file.close();

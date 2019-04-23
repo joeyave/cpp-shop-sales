@@ -20,15 +20,15 @@ struct Node
 	Node* next;
 };
 
-void create_list(Node* strct, std::ifstream& in);
+void create_list(std::ifstream& in);
 
-void print_list(Node* strct, std::ofstream& out);
+void print_list(std::ofstream& out);
 
 int find_node(int ID);
 
-void delete_node(Node* strct, int ID);
+void delete_node(int ID);
 
-void insert_node(Node* strct, std::ifstream& in);
+void insert_node(std::ifstream& in);
 
 void destroy();
 
