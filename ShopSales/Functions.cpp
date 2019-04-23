@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "Functions.h"
 
-Node* head = NULL;
 const int QUARTER = 4;
+
+Node* head = NULL;
 
 void create_list(std::ifstream& in)
 {
@@ -70,7 +71,6 @@ void create_list(std::ifstream& in)
 
 		in.close();
 	}
-
 	else
 	{
 		bool more = true;

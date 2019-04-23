@@ -1,10 +1,13 @@
 #pragma once
+#ifndef _FUNCTIONS_H_
+#define _FUNCTIONS_H_
 
 #include "pch.h"
 #include <string>
 #include <iostream>
 #include <fstream>
 
+// Stuctures
 struct Info
 {
 	int customerID;
@@ -20,6 +23,10 @@ struct Node
 	Node* next;
 };
 
+// Global variables
+extern Node* head;
+
+// Functions' headers 
 void create_list(std::ifstream& in);
 
 void print_list(std::ofstream& out);
@@ -33,3 +40,4 @@ void insert_node(std::ifstream& in);
 void destroy();
 
 void console_input(Node* temp);
+#endif

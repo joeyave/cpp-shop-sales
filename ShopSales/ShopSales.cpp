@@ -37,8 +37,6 @@ int main()
 		return 3;
 	}
 
-	//Node node;
-
 	create_list(read_file);
 	print_list(write_file);
 
@@ -47,4 +45,6 @@ int main()
 
 	read_file.close();
 	write_file.close();
+
+	head = NULL;
 }
