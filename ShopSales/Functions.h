@@ -46,13 +46,15 @@ void customer_create(std::ifstream& in, Customer* chead);
 
 void customer_print(std::ofstream& out, Customer* head);
 
-int customer_find_node(int ID);
+int customer_find_node(int ID, Customer* chead);
 
-void customer_delete_node(int ID);
+void customer_delete_node(int ID, Customer* chead);
 
-void customer_insert_node(std::ifstream& in);
+void customer_insert_node(std::ifstream& in, Customer* chead);
 
 void destroy(Customer* head);
+
+void destroy(Product* head);
 
 void console_input(Customer* temp);
 
