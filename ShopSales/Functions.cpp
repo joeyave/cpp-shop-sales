@@ -563,9 +563,9 @@ int find_max()
 				if (trav->val.orderNum[i] > max)
 				{
 					max = trav->val.orderNum[i];
-				}
 
-				top_quarter = i;
+					top_quarter = i;
+				}
 			}
 			break;
 		}
