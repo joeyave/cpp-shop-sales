@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "Functions.h"
+#include "MergeSort.h"
 
 int main()
 {
@@ -38,13 +39,11 @@ int main()
 	}
 
 	create_list(read_file);
-	print_list(write_file);
+	MergeSort(&cust_head);
+	print_list(write_file, cust_head);
 
-	insert_node(insert_file);
-	print_list(write_file);
-
-	read_file.close();
-	write_file.close();
-
-	head = NULL;
+	create_prod_list(cust_head);
+	print_prod_list(write_file, prod_head);
+	
+	destroy(cust_head);
 }

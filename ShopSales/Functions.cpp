@@ -1,9 +1,12 @@
 #include "pch.h"
 #include "Functions.h"
 
+// Global variables
 const int QUARTER = 4;
 
-Node* head = NULL;
+//Header of the list
+Customer* cust_head = NULL;
+Product* prod_head = NULL;
 
 void create_list(std::ifstream& in)
 {
@@ -30,7 +33,7 @@ void create_list(std::ifstream& in)
 		for (int i = 0; i < number; i++)
 		{
 			// Declare the space for a pointer item
-			Node* temp = new Node;
+			Customer* temp = new Customer;
 			if (temp == NULL)
 			{
 				break;
@@ -49,15 +52,15 @@ void create_list(std::ifstream& in)
 			temp->next = NULL;
 
 			// Check if the list is empty
-			// Set temp value to the head of the list
-			if (head == NULL)
+			// Set temp value to the cust_head of the list
+			if (cust_head == NULL)
 			{
-				head = temp;
+				cust_head = temp;
 			}
 			// Step through the list until it finds the last node
 			else
 			{
-				Node* traverse = head;
+				Customer* traverse = cust_head;
 
 				while (traverse->next != NULL)
 				{
@@ -77,7 +80,7 @@ void create_list(std::ifstream& in)
 		while (more == true)
 		{
 			// Declare the space for a pointer item
-			Node* temp = new Node;
+			Customer* temp = new Customer;
 			if (temp == NULL)
 			{
 				break;
@@ -86,15 +89,15 @@ void create_list(std::ifstream& in)
 			console_input(temp);
 
 			// Check if the list is empty
-			// Set temp value to the head of the list
-			if (head == NULL)
+			// Set temp value to the cust_head of the list
+			if (cust_head == NULL)
 			{
-				head = temp;
+				cust_head = temp;
 			}
 			// Step through the list until it finds the last node
 			else
 			{
-				Node* traverse = head;
+				Customer* traverse = cust_head;
 
 				while (traverse->next != NULL)
 				{
@@ -117,7 +120,7 @@ void create_list(std::ifstream& in)
 	}
 }
 
-void print_list(std::ofstream& out)
+void print_list(std::ofstream& out, Customer* head)
 {
 	//  Where to print a list
 	std::cout << "Where should I print a list? (f/c) ";
@@ -127,7 +130,7 @@ void print_list(std::ofstream& out)
 	if (ans == "f")
 	{
 		int i = 0;
-		Node* traverse = head;
+		Customer* traverse = head;
 		while (traverse != NULL)
 		{
 
@@ -151,7 +154,7 @@ void print_list(std::ofstream& out)
 	else
 	{
 		int i = 0;
-		Node* traverse = head;
+		Customer* traverse = cust_head;
 		while (traverse != NULL)
 		{
 
@@ -179,7 +182,7 @@ int find_node(int ID)
 {
 	int key = 1;
 
-	Node* current = head;
+	Customer* current = cust_head;
 
 	while (current->val.customerID != NULL)
 	{
@@ -199,14 +202,14 @@ int find_node(int ID)
 
 void delete_node(int ID)
 {
-	Node* temp = head;
-	Node* previous = head;
+	Customer* temp = cust_head;
+	Customer* previous = cust_head;
 
-	// If head node itself holds the key to be deleted 
+	// If cust_head node itself holds the key to be deleted 
 	if (temp != NULL && temp->val.customerID == ID)
 	{
-		head = temp->next;   // Changed head 
-		delete temp;             // free old head 
+		cust_head = temp->next;   // Changed cust_head 
+		delete temp;             // free old cust_head 
 		return;
 	}
 	else
@@ -254,7 +257,7 @@ void insert_node(std::ifstream& in)
 		for (int i = 0; i < number; i++)
 		{
 			// Declare the space for a pointer item
-			Node* temp = new Node;
+			Customer* temp = new Customer;
 			if (temp == NULL)
 			{
 				break;
@@ -273,13 +276,13 @@ void insert_node(std::ifstream& in)
 			temp->next = NULL;
 
 			// Inserts at the beg of the list
-			temp->next = head;
-			head = temp;
+			temp->next = cust_head;
+			cust_head = temp;
 		}
 	}
 	else
 	{
-		Node* temp = new Node;
+		Customer* temp = new Customer;
 		if (temp == NULL)
 		{
 			return;
@@ -288,24 +291,24 @@ void insert_node(std::ifstream& in)
 		console_input(temp);
 
 		// Inserts at the beg of the list
-		temp->next = head;
-		head = temp;
+		temp->next = cust_head;
+		cust_head = temp;
 	}
 }
 
-void destroy()
+void destroy(Customer* head)
 {
-	Node* temp = head;
+	Customer* temp = head;
 
 	while (temp != NULL)
 	{
-		Node* next = temp->next;
+		Customer* next = temp->next;
 		delete temp;
 		temp = next;
 	}
 }
 
-void console_input(Node* temp)
+void console_input(Customer* temp)
 {
 	// Initialize the node's val field
 	std::cout << "Customer ID: ";
@@ -329,4 +332,144 @@ void console_input(Node* temp)
 
 	// Initialize the node's next field
 	temp->next = NULL;
+}
+
+int create_prod_list(Customer* head)
+{	
+	int sum = 0;
+	int quartersum[QUARTER] = {0, 0, 0, 0};
+
+	Customer* ctemp = head;
+	while (ctemp != NULL)
+	{
+		Product* ptemp = new Product;
+		if (ptemp == NULL)
+		{
+			return 5;
+		}
+
+		if (ctemp->next == NULL || ctemp->val.productID != ctemp->next->val.productID)
+		{
+			int totalsum = 0;
+
+			for (int i = 0; i < QUARTER; i++)
+			{
+				totalsum += ctemp->val.orderNum[i];
+				quartersum[i] += ctemp->val.orderNum[i];
+			}
+
+			sum += totalsum * ctemp->val.productCost;
+
+			ptemp->val.productID = ctemp->val.productID;
+			ptemp->val.totalCost = sum;
+			sum = 0;
+			for (int i = 0; i < QUARTER; i++)
+			{
+				ptemp->val.orderNum[i] = quartersum[i];
+				quartersum[i] = 0;
+			}
+
+			ptemp->next = NULL;
+
+			if (prod_head == NULL)
+			{
+				prod_head = ptemp;
+			}
+			else
+			{
+				Product* trav = prod_head;
+
+				while (trav->next != NULL)
+				{
+					// Move to next link in chain
+					trav = trav->next;
+				}
+				// Sets the pointer from last node to the node temp
+				trav->next = ptemp;
+			}
+		}
+		else
+		{
+			int totalsum = 0;
+
+			for (int i = 0; i < QUARTER; i++)
+			{
+				totalsum += ctemp->val.orderNum[i];
+				quartersum[i] += ctemp->val.orderNum[i];
+			}
+			
+			sum += totalsum * ctemp->val.productCost;
+		}
+
+		ctemp = ctemp->next;
+	}
+}
+
+int hash(Customer* temp)
+{
+	while (temp->next != NULL)
+	{
+		if (temp->val.productID != temp->next->val.productID)
+		{
+			return temp->val.productID;
+		}
+		else
+		{
+			temp = temp->next;
+		}
+	}
+}
+
+void print_prod_list(std::ofstream& out, Product* head)
+{
+	//  Where to print a list
+	std::cout << "Where should I print a list? (f/c) ";
+	std::string ans;
+	std::cin >> ans;
+
+	if (ans == "f")
+	{
+		int i = 0;
+		Product* traverse = head;
+		while (traverse != NULL)
+		{
+
+			out << "\n***** NODE " << i + 1 << " *****" << std::endl;
+			out << "Product ID: " << traverse->val.productID << std::endl;
+			out << "Total cost: " << traverse->val.totalCost << std::endl;
+
+			const int QUARTER = 4;
+			for (int i = 0; i < QUARTER; i++)
+			{
+				out << "Number of orders in (" << i + 1 << ") quater: "
+					<< traverse->val.orderNum[i] << std::endl;
+			}
+
+			traverse = traverse->next;
+			i++;
+		}
+	}
+	else
+	{
+		int i = 0;
+		Product* traverse = head;
+		while (traverse != NULL)
+		{
+
+			std::cout << "\n***** NODE " << i + 1 << " *****" << std::endl;
+			std::cout << "Product ID: " << traverse->val.productID << std::endl;
+			std::cout << "Total cost: " << traverse->val.totalCost << std::endl;
+
+			for (int i = 0; i < QUARTER; i++)
+			{
+				std::cout << "Number of orders in (" << i + 1 << ") quater: "
+					<< traverse->val.orderNum[i] << std::endl;
+			}
+
+			traverse = traverse->next;
+			i++;
+		}
+	}
+
+	//out.close();
 }
