@@ -8,7 +8,7 @@ const int QUARTER = 4;
 Customer* cust_head = NULL;
 Product* prod_head = NULL;
 
-void create_list(std::ifstream& in)
+void customer_create(std::ifstream& in, Customer* chead)
 {
 	// Initialization method choose
 	std::cout << "Choose a method of initialization (f/c) ";
@@ -53,22 +53,22 @@ void create_list(std::ifstream& in)
 
 			// Check if the list is empty
 			// Set temp value to the cust_head of the list
-			if (cust_head == NULL)
+			if (chead == NULL)
 			{
 				cust_head = temp;
 			}
 			// Step through the list until it finds the last node
 			else
 			{
-				Customer* traverse = cust_head;
+				Customer* trav = cust_head;
 
-				while (traverse->next != NULL)
+				while (trav->next != NULL)
 				{
 					// Move to next link in chain
-					traverse = traverse->next;
+					trav = trav->next;
 				}
 				// Sets the pointer from last node to the node temp
-				traverse->next = temp;
+				trav->next = temp;
 			}
 		}
 
@@ -90,22 +90,22 @@ void create_list(std::ifstream& in)
 
 			// Check if the list is empty
 			// Set temp value to the cust_head of the list
-			if (cust_head == NULL)
+			if (chead == NULL)
 			{
-				cust_head = temp;
+				chead = temp;
 			}
 			// Step through the list until it finds the last node
 			else
 			{
-				Customer* traverse = cust_head;
+				Customer* trav = cust_head;
 
-				while (traverse->next != NULL)
+				while (trav->next != NULL)
 				{
 					// Move to next link in chain
-					traverse = traverse->next;
+					trav = trav->next;
 				}
 				// Sets the pointer from last node to the node temp
-				traverse->next = temp;
+				trav->next = temp;
 			}
 
 			// Ask to continue input
@@ -120,7 +120,7 @@ void create_list(std::ifstream& in)
 	}
 }
 
-void print_list(std::ofstream& out, Customer* head)
+void customer_print(std::ofstream& out, Customer* chead)
 {
 	//  Where to print a list
 	std::cout << "Where should I print a list? (f/c) ";
@@ -130,59 +130,57 @@ void print_list(std::ofstream& out, Customer* head)
 	if (ans == "f")
 	{
 		int i = 0;
-		Customer* traverse = head;
-		while (traverse != NULL)
+		Customer* trav = chead;
+		while (trav != NULL)
 		{
 
 			out << "\n***** NODE " << i + 1 << " *****" << std::endl;
-			out << "Customer ID: " << traverse->val.customerID << std::endl;
-			out << "Product ID: " << traverse->val.productID << std::endl;
-			out << "Product name: " << traverse->val.productName << std::endl;
-			out << "Product cost: " << traverse->val.productCost << std::endl;
+			out << "Customer ID: " << trav->val.customerID << std::endl;
+			out << "Product ID: " << trav->val.productID << std::endl;
+			out << "Product name: " << trav->val.productName << std::endl;
+			out << "Product cost: " << trav->val.productCost << std::endl;
 
 			const int QUARTER = 4;
 			for (int i = 0; i < QUARTER; i++)
 			{
 				out << "Number of orders in (" << i + 1 << ") quater: "
-					<< traverse->val.orderNum[i] << std::endl;
+					<< trav->val.orderNum[i] << std::endl;
 			}
 
-			traverse = traverse->next;
+			trav = trav->next;
 			i++;
 		}
 	}
 	else
 	{
 		int i = 0;
-		Customer* traverse = cust_head;
-		while (traverse != NULL)
+		Customer* trav = chead;
+		while (trav != NULL)
 		{
 
 			std::cout << "\n***** NODE " << i + 1 << " *****" << std::endl;
-			std::cout << "Customer ID: " << traverse->val.customerID << std::endl;
-			std::cout << "Product ID: " << traverse->val.productID << std::endl;
-			std::cout << "Product name: " << traverse->val.productName << std::endl;
-			std::cout << "Product cost: " << traverse->val.productCost << std::endl;
+			std::cout << "Customer ID: " << trav->val.customerID << std::endl;
+			std::cout << "Product ID: " << trav->val.productID << std::endl;
+			std::cout << "Product name: " << trav->val.productName << std::endl;
+			std::cout << "Product cost: " << trav->val.productCost << std::endl;
 
 			for (int i = 0; i < QUARTER; i++)
 			{
 				std::cout << "Number of orders in (" << i + 1 << ") quater: "
-					<< traverse->val.orderNum[i] << std::endl;
+					<< trav->val.orderNum[i] << std::endl;
 			}
 
-			traverse = traverse->next;
+			trav = trav->next;
 			i++;
 		}
 	}
-
-	//out.close();
 }
 
-int find_node(int ID)
+int customer_find_node(int ID, Customer* chead)
 {
 	int key = 1;
 
-	Customer* current = cust_head;
+	Customer* current = chead;
 
 	while (current->val.customerID != NULL)
 	{
@@ -200,10 +198,10 @@ int find_node(int ID)
 	return key;
 }
 
-void delete_node(int ID)
+void customer_delete_node(int ID, Customer* chead)
 {
-	Customer* temp = cust_head;
-	Customer* previous = cust_head;
+	Customer* temp = chead;
+	Customer* previous = chead;
 
 	// If cust_head node itself holds the key to be deleted 
 	if (temp != NULL && temp->val.customerID == ID)
@@ -232,7 +230,7 @@ void delete_node(int ID)
 	}
 }
 
-void insert_node(std::ifstream& in)
+void customer_insert_node(std::ifstream& in, Customer* chead)
 {
 	// Initialization method choose
 	std::cout << "\nChoose a method of inserting (f/c) ";
@@ -276,7 +274,7 @@ void insert_node(std::ifstream& in)
 			temp->next = NULL;
 
 			// Inserts at the beg of the list
-			temp->next = cust_head;
+			temp->next = chead;
 			cust_head = temp;
 		}
 	}
@@ -291,7 +289,7 @@ void insert_node(std::ifstream& in)
 		console_input(temp);
 
 		// Inserts at the beg of the list
-		temp->next = cust_head;
+		temp->next = chead;
 		cust_head = temp;
 	}
 }
@@ -303,6 +301,18 @@ void destroy(Customer* head)
 	while (temp != NULL)
 	{
 		Customer* next = temp->next;
+		delete temp;
+		temp = next;
+	}
+}
+
+void destroy(Product* head)
+{
+	Product* temp = head;
+
+	while (temp != NULL)
+	{
+		Product* next = temp->next;
 		delete temp;
 		temp = next;
 	}
@@ -334,18 +344,18 @@ void console_input(Customer* temp)
 	temp->next = NULL;
 }
 
-int create_prod_list(Customer* head)
+void product_create(Customer* chead, Product* phead)
 {	
 	int sum = 0;
 	int quartersum[QUARTER] = {0, 0, 0, 0};
 
-	Customer* ctemp = head;
+	Customer* ctemp = chead;
 	while (ctemp != NULL)
 	{
 		Product* ptemp = new Product;
 		if (ptemp == NULL)
 		{
-			return 5;
+			return;
 		}
 
 		if (ctemp->next == NULL || ctemp->val.productID != ctemp->next->val.productID)
@@ -371,13 +381,13 @@ int create_prod_list(Customer* head)
 
 			ptemp->next = NULL;
 
-			if (prod_head == NULL)
+			if (phead == NULL)
 			{
-				prod_head = ptemp;
+				phead = ptemp;
 			}
 			else
 			{
-				Product* trav = prod_head;
+				Product* trav = phead;
 
 				while (trav->next != NULL)
 				{
@@ -405,22 +415,7 @@ int create_prod_list(Customer* head)
 	}
 }
 
-int hash(Customer* temp)
-{
-	while (temp->next != NULL)
-	{
-		if (temp->val.productID != temp->next->val.productID)
-		{
-			return temp->val.productID;
-		}
-		else
-		{
-			temp = temp->next;
-		}
-	}
-}
-
-void print_prod_list(std::ofstream& out, Product* head)
+void product_print(std::ofstream& out, Product* chead)
 {
 	//  Where to print a list
 	std::cout << "Where should I print a list? (f/c) ";
@@ -430,43 +425,43 @@ void print_prod_list(std::ofstream& out, Product* head)
 	if (ans == "f")
 	{
 		int i = 0;
-		Product* traverse = head;
-		while (traverse != NULL)
+		Product* trav = chead;
+		while (trav != NULL)
 		{
 
 			out << "\n***** NODE " << i + 1 << " *****" << std::endl;
-			out << "Product ID: " << traverse->val.productID << std::endl;
-			out << "Total cost: " << traverse->val.totalCost << std::endl;
+			out << "Product ID: " << trav->val.productID << std::endl;
+			out << "Total cost: " << trav->val.totalCost << std::endl;
 
 			const int QUARTER = 4;
 			for (int i = 0; i < QUARTER; i++)
 			{
 				out << "Number of orders in (" << i + 1 << ") quater: "
-					<< traverse->val.orderNum[i] << std::endl;
+					<< trav->val.orderNum[i] << std::endl;
 			}
 
-			traverse = traverse->next;
+			trav = trav->next;
 			i++;
 		}
 	}
 	else
 	{
 		int i = 0;
-		Product* traverse = head;
-		while (traverse != NULL)
+		Product* trav = chead;
+		while (trav != NULL)
 		{
 
 			std::cout << "\n***** NODE " << i + 1 << " *****" << std::endl;
-			std::cout << "Product ID: " << traverse->val.productID << std::endl;
-			std::cout << "Total cost: " << traverse->val.totalCost << std::endl;
+			std::cout << "Product ID: " << trav->val.productID << std::endl;
+			std::cout << "Total cost: " << trav->val.totalCost << std::endl;
 
 			for (int i = 0; i < QUARTER; i++)
 			{
 				std::cout << "Number of orders in (" << i + 1 << ") quater: "
-					<< traverse->val.orderNum[i] << std::endl;
+					<< trav->val.orderNum[i] << std::endl;
 			}
 
-			traverse = traverse->next;
+			trav = trav->next;
 			i++;
 		}
 	}

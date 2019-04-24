@@ -41,23 +41,21 @@ struct Product
 extern Customer* cust_head;
 extern Product* prod_head;
 
-// Functions' cust_headers 
-void create_list(std::ifstream& in);
+// Functions
+void customer_create(std::ifstream& in, Customer* chead);
 
-void print_list(std::ofstream& out, Customer* head);
+void customer_print(std::ofstream& out, Customer* head);
 
-int find_node(int ID);
+int customer_find_node(int ID);
 
-void delete_node(int ID);
+void customer_delete_node(int ID);
 
-void insert_node(std::ifstream& in);
+void customer_insert_node(std::ifstream& in);
 
 void destroy(Customer* head);
 
 void console_input(Customer* temp);
 
-int create_prod_list(Customer* head);
+void product_create(Customer* chead, Product* phead);
 
-int hash(Customer* temp);
-
-void print_prod_list(std::ofstream& out, Product* head);
+void product_print(std::ofstream& out, Product* head);
