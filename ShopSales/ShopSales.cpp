@@ -38,12 +38,13 @@ int main()
 		return 3;
 	}
 
-	create_list(read_file);
+	cust_create(read_file);
 	MergeSort(&cust_head);
-	print_list(write_file, cust_head);
+	cust_print(write_file);
 
-	create_prod_list(cust_head);
-	print_prod_list(write_file, prod_head);
+	prod_create();
+	prod_print(write_file);
 	
-	destroy(cust_head);
+	cust_destroy();
+	prod_destroy();
 }

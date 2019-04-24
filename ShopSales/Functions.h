@@ -42,22 +42,22 @@ extern Customer* cust_head;
 extern Product* prod_head;
 
 // Functions
-void customer_create(std::ifstream& in, Customer* chead);
+void cust_create(std::ifstream& in);
 
-void customer_print(std::ofstream& out, Customer* head);
+void prod_create();
 
-int customer_find_node(int ID, Customer* chead);
+int find_node(int ID);
 
-void customer_delete_node(int ID, Customer* chead);
+void delete_node(int ID);
 
-void customer_insert_node(std::ifstream& in, Customer* chead);
+void insert_node(std::ifstream& in);
 
-void destroy(Customer* head);
+void cust_destroy();
 
-void destroy(Product* head);
+void prod_destroy();
 
 void console_input(Customer* temp);
 
-void product_create(Customer* chead, Product* phead);
+void cust_print(std::ofstream& out);
 
-void product_print(std::ofstream& out, Product* head);
+void prod_print(std::ofstream& out);
