@@ -61,3 +61,5 @@ void console_input(Customer* temp);
 void cust_print(std::ofstream& out);
 
 void prod_print(std::ofstream& out);
+
+int find_max();

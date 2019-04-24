@@ -427,7 +427,7 @@ void cust_print(std::ofstream& out)
 		while (trav != NULL)
 		{
 
-			out << "\n***** NODE " << i + 1 << " *****" << std::endl;
+			out << "\n*****CUSTOMER NODE " << i + 1 << " *****" << std::endl;
 			out << "Customer ID: " << trav->val.customerID << std::endl;
 			out << "Product ID: " << trav->val.productID << std::endl;
 			out << "Product name: " << trav->val.productName << std::endl;
@@ -451,7 +451,7 @@ void cust_print(std::ofstream& out)
 		while (trav != NULL)
 		{
 
-			std::cout << "\n***** NODE " << i + 1 << " *****" << std::endl;
+			std::cout << "\n*****CUSTOMER NODE " << i + 1 << " *****" << std::endl;
 			std::cout << "Customer ID: " << trav->val.customerID << std::endl;
 			std::cout << "Product ID: " << trav->val.productID << std::endl;
 			std::cout << "Product name: " << trav->val.productName << std::endl;
@@ -483,15 +483,25 @@ void prod_print(std::ofstream& out)
 		while (trav != NULL)
 		{
 
-			out << "\n***** NODE " << i + 1 << " *****" << std::endl;
+			out << "\n*****PRODUCT NODE " << i + 1 << " *****" << std::endl;
 			out << "Product ID: " << trav->val.productID << std::endl;
 			out << "Total cost: " << trav->val.totalCost << std::endl;
 
-			const int QUARTER = 4;
 			for (int i = 0; i < QUARTER; i++)
 			{
 				out << "Number of orders in (" << i + 1 << ") quater: "
 					<< trav->val.orderNum[i] << std::endl;
+			}
+
+			int j = 0;
+			Sublist* strav = trav->val.sub_head;
+			out << "Customers: ";
+			while (strav != NULL)
+			{
+				out << strav->customerID << " ";
+
+				strav = strav->next;
+				j++;
 			}
 
 			trav = trav->next;
@@ -505,7 +515,7 @@ void prod_print(std::ofstream& out)
 		while (trav != NULL)
 		{
 
-			std::cout << "\n***** NODE " << i + 1 << " *****" << std::endl;
+			std::cout << "\n*****PRODUCT NODE " << i + 1 << " *****" << std::endl;
 			std::cout << "Product ID: " << trav->val.productID << std::endl;
 			std::cout << "Total cost: " << trav->val.totalCost << std::endl;
 
@@ -530,4 +540,42 @@ void prod_print(std::ofstream& out)
 			i++;
 		}
 	}
+}
+
+int find_max()
+{
+	std::cout << "\nInput product ID: ";
+	int prodID;
+	std::cin >> prodID;
+
+	int max; 
+	int top_quarter;
+
+	Product* trav = prod_head;
+
+	while (trav->val.productID != NULL)
+	{
+		if (trav->val.productID == prodID)
+		{
+			max = trav->val.orderNum[0];
+			for (int i = 0; i < QUARTER; i++)
+			{
+				if (trav->val.orderNum[i] > max)
+				{
+					max = trav->val.orderNum[i];
+				}
+
+				top_quarter = i;
+			}
+			break;
+		}
+		else
+		{
+			trav = trav->next;
+		}
+	}
+
+	std::cout << "In the " << top_quarter << " quarter were " << max << " orders." << std::endl;
+
+	return max;
 }

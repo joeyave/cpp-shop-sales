@@ -42,9 +42,12 @@ int main()
 	MergeSort(&cust_head);
 	cust_print(write_file);
 
+	
 	prod_create();
 	prod_print(write_file);
 	
+	find_max();
+
 	cust_destroy();
 	prod_destroy();
 }
