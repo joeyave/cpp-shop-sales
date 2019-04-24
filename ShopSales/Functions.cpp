@@ -470,6 +470,4 @@ void print_prod_list(std::ofstream& out, Product* head)
 			i++;
 		}
 	}
-
-	//out.close();
 }
