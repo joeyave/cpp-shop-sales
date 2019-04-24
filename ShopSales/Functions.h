@@ -46,20 +46,12 @@ void cust_create(std::ifstream& in);
 
 void prod_create();
 
-int find_node(int ID);
-
-void delete_node(int ID);
-
-void insert_node(std::ifstream& in);
-
 void cust_destroy();
 
 void prod_destroy();
 
-void console_input(Customer* temp);
+void cust_print();
 
-void cust_print(std::ofstream& out);
-
-void prod_print(std::ofstream& out);
+void prod_print();
 
 int find_max();

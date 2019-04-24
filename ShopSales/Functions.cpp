@@ -87,7 +87,28 @@ void cust_create(std::ifstream& in)
 				break;
 			}
 
-			console_input(temp);
+			// Initialize the node's val field
+			std::cout << "Customer ID: ";
+			std::cin >> temp->val.customerID;
+
+			std::cout << "Product ID: ";
+			std::cin >> temp->val.productID;
+
+			std::cout << "Product name: ";
+			std::cin >> temp->val.productName;
+
+			std::cout << "Product cost: ";
+			std::cin >> temp->val.productCost;
+
+			int orderNum[QUARTER];
+			for (int i = 0; i < QUARTER; i++)
+			{
+				std::cout << "Number of orders in (" << i + 1 << ") quater: ";
+				std::cin >> temp->val.orderNum[i];
+			}
+
+			// Initialize the node's next field
+			temp->next = NULL;
 
 			// Check if the list is empty
 			// Set temp value to the cust_head of the list
@@ -245,124 +266,6 @@ void prod_create()
 	}
 }
 
-int find_node(int ID)
-{
-	int key = 1;
-
-	Customer* current = cust_head;
-
-	while (current->val.customerID != NULL)
-	{
-		if (current->val.customerID == ID)
-		{
-			std::cout << "Success.";
-			break;
-		}
-		else
-		{
-			key++;
-			current = current->next;
-		}
-	}
-	return key;
-}
-
-void delete_node(int ID)
-{
-	Customer* temp = cust_head;
-	Customer* previous = cust_head;
-
-	// If cust_head node itself holds the key to be deleted 
-	if (temp != NULL && temp->val.customerID == ID)
-	{
-		cust_head = temp->next;   // Changed cust_head 
-		delete temp;             // free old cust_head 
-		return;
-	}
-	else
-	{
-		while (temp != NULL || temp->val.customerID != ID)
-		{
-			if (temp->val.customerID == ID)
-			{
-				previous->next = temp->next;
-				delete temp;
-				std::cout << "Deleted." << std::endl;
-				break;
-			}
-			else
-			{
-				previous = temp;
-				temp = temp->next;
-			}
-		}
-	}
-}
-
-void insert_node(std::ifstream& in)
-{
-	// Initialization method choose
-	std::cout << "\nChoose a method of inserting (f/c) ";
-	std::string ans;
-	std::cin >> ans;
-
-	if (ans == "f")
-	{
-		// Counts the number of nodes
-		std::string s;
-		int number = 0;
-
-		while (getline(in, s))
-		{
-			number++;
-		}
-
-		// Returns a flag to the beginning of the file
-		in.clear();
-		in.seekg(0, std::ios::beg);
-
-		for (int i = 0; i < number; i++)
-		{
-			// Declare the space for a pointer item
-			Customer* temp = new Customer;
-			if (temp == NULL)
-			{
-				break;
-			}
-
-			in >> temp->val.customerID >> temp->val.productID >>
-				temp->val.productName >> temp->val.productCost;
-
-			int orderNum[QUARTER];
-			for (int i = 0; i < QUARTER; i++)
-			{
-				in >> temp->val.orderNum[i];
-			}
-
-			// Initialize the node's next field
-			temp->next = NULL;
-
-			// Inserts at the beg of the list
-			temp->next = cust_head;
-			cust_head = temp;
-		}
-	}
-	else
-	{
-		Customer* temp = new Customer;
-		if (temp == NULL)
-		{
-			return;
-		}
-
-		console_input(temp);
-
-		// Inserts at the beg of the list
-		temp->next = cust_head;
-		cust_head = temp;
-	}
-}
-
 void cust_destroy()
 {
 	Customer* temp = cust_head;
@@ -387,159 +290,65 @@ void prod_destroy()
 	}
 }
 
-void console_input(Customer* temp)
+void cust_print()
 {
-	// Initialize the node's val field
-	std::cout << "Customer ID: ";
-	std::cin >> temp->val.customerID;
-
-	std::cout << "Product ID: ";
-	std::cin >> temp->val.productID;
-
-	std::cout << "Product name: ";
-	std::cin >> temp->val.productName;
-
-	std::cout << "Product cost: ";
-	std::cin >> temp->val.productCost;
-
-	int orderNum[QUARTER];
-	for (int i = 0; i < QUARTER; i++)
+	int i = 0;
+	Customer* trav = cust_head;
+	while (trav != NULL)
 	{
-		std::cout << "Number of orders in (" << i + 1 << ") quater: ";
-		std::cin >> temp->val.orderNum[i];
-	}
 
-	// Initialize the node's next field
-	temp->next = NULL;
-}
+		std::cout << "\n*****CUSTOMER NODE " << i + 1 << " *****" << std::endl;
+		std::cout << "Customer ID: " << trav->val.customerID << std::endl;
+		std::cout << "Product ID: " << trav->val.productID << std::endl;
+		std::cout << "Product name: " << trav->val.productName << std::endl;
+		std::cout << "Product cost: " << trav->val.productCost << std::endl;
 
-void cust_print(std::ofstream& out)
-{
-	//  Where to print a list
-	std::cout << "Where should I print a list? (f/c) ";
-	std::string ans;
-	std::cin >> ans;
-
-	if (ans == "f")
-	{
-		int i = 0;
-		Customer* trav = cust_head;
-		while (trav != NULL)
+		for (int i = 0; i < QUARTER; i++)
 		{
-
-			out << "\n*****CUSTOMER NODE " << i + 1 << " *****" << std::endl;
-			out << "Customer ID: " << trav->val.customerID << std::endl;
-			out << "Product ID: " << trav->val.productID << std::endl;
-			out << "Product name: " << trav->val.productName << std::endl;
-			out << "Product cost: " << trav->val.productCost << std::endl;
-
-			const int QUARTER = 4;
-			for (int i = 0; i < QUARTER; i++)
-			{
-				out << "Number of orders in (" << i + 1 << ") quater: "
-					<< trav->val.orderNum[i] << std::endl;
-			}
-
-			trav = trav->next;
-			i++;
+			std::cout << "Number of orders in (" << i + 1 << ") quater: "
+				<< trav->val.orderNum[i] << std::endl;
 		}
-	}
-	else
-	{
-		int i = 0;
-		Customer* trav = cust_head;
-		while (trav != NULL)
-		{
 
-			std::cout << "\n*****CUSTOMER NODE " << i + 1 << " *****" << std::endl;
-			std::cout << "Customer ID: " << trav->val.customerID << std::endl;
-			std::cout << "Product ID: " << trav->val.productID << std::endl;
-			std::cout << "Product name: " << trav->val.productName << std::endl;
-			std::cout << "Product cost: " << trav->val.productCost << std::endl;
-
-			for (int i = 0; i < QUARTER; i++)
-			{
-				std::cout << "Number of orders in (" << i + 1 << ") quater: "
-					<< trav->val.orderNum[i] << std::endl;
-			}
-
-			trav = trav->next;
-			i++;
-		}
+		trav = trav->next;
+		i++;
 	}
 }
 
-void prod_print(std::ofstream& out)
+void prod_print()
 {
-	//  Where to print a list
-	std::cout << "Where should I print a list? (f/c) ";
-	std::string ans;
-	std::cin >> ans;
 
-	if (ans == "f")
+	int i = 0;
+	Product* trav = prod_head;
+	while (trav != NULL)
 	{
-		int i = 0;
-		Product* trav = prod_head;
-		while (trav != NULL)
+
+		std::cout << "\n*****PRODUCT NODE " << i + 1 << " *****" << std::endl;
+		std::cout << "Product ID: " << trav->val.productID << std::endl;
+		std::cout << "Total cost: " << trav->val.totalCost << std::endl;
+
+		for (int i = 0; i < QUARTER; i++)
 		{
-
-			out << "\n*****PRODUCT NODE " << i + 1 << " *****" << std::endl;
-			out << "Product ID: " << trav->val.productID << std::endl;
-			out << "Total cost: " << trav->val.totalCost << std::endl;
-
-			for (int i = 0; i < QUARTER; i++)
-			{
-				out << "Number of orders in (" << i + 1 << ") quater: "
-					<< trav->val.orderNum[i] << std::endl;
-			}
-
-			int j = 0;
-			Sublist* strav = trav->val.sub_head;
-			out << "Customers: ";
-			while (strav != NULL)
-			{
-				out << strav->customerID << " ";
-
-				strav = strav->next;
-				j++;
-			}
-
-			trav = trav->next;
-			i++;
+			std::cout << "Number of orders in (" << i + 1 << ") quater: "
+				<< trav->val.orderNum[i] << std::endl;
 		}
-	}
-	else
-	{
-		int i = 0;
-		Product* trav = prod_head;
-		while (trav != NULL)
+
+		int j = 0;
+		Sublist* strav = trav->val.sub_head;
+		std::cout << "Customers: ";
+		while (strav != NULL)
 		{
+			std::cout << strav->customerID << " ";
 
-			std::cout << "\n*****PRODUCT NODE " << i + 1 << " *****" << std::endl;
-			std::cout << "Product ID: " << trav->val.productID << std::endl;
-			std::cout << "Total cost: " << trav->val.totalCost << std::endl;
-
-			for (int i = 0; i < QUARTER; i++)
-			{
-				std::cout << "Number of orders in (" << i + 1 << ") quater: "
-					<< trav->val.orderNum[i] << std::endl;
-			}
-
-			int j = 0;
-			Sublist* strav = trav->val.sub_head;
-			std::cout << "Customers: ";
-			while (strav != NULL)
-			{
-				std::cout << strav->customerID << " ";
-
-				strav = strav->next;
-				j++;
-			}
-
-			trav = trav->next;
-			i++;
+			strav = strav->next;
+			j++;
 		}
+
+		std::cout << std::endl;
+
+		trav = trav->next;
+		i++;
 	}
+
 }
 
 int find_max()
@@ -548,7 +357,7 @@ int find_max()
 	int prodID;
 	std::cin >> prodID;
 
-	int max; 
+	int max;
 	int top_quarter;
 
 	Product* trav = prod_head;
@@ -563,9 +372,9 @@ int find_max()
 				if (trav->val.orderNum[i] > max)
 				{
 					max = trav->val.orderNum[i];
-				}
 
-				top_quarter = i;
+					top_quarter = i + 1;
+				}				
 			}
 			break;
 		}
@@ -575,7 +384,7 @@ int find_max()
 		}
 	}
 
-	std::cout << "In the " << top_quarter << " quarter were " << max << " orders." << std::endl;
+	std::cout << "\nIn the " << top_quarter << " quarter were " << max << " orders." << std::endl;
 
 	return max;
 }
